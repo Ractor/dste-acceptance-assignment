@@ -5,11 +5,13 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error
 import joblib
 import logging
+import os 
+dir_path = os.path.dirname(os.path.realpath(__file__))
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
-TRAIN_DATA = 'housing.csv'
-MODEL_NAME = 'model.joblib'
+TRAIN_DATA = dir_path + '/housing.csv'
+MODEL_NAME = dir_path + '/model.joblib'
 RANDOM_STATE=100
 
 def prepare_data(input_data_path):
