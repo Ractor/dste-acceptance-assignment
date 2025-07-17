@@ -1,6 +1,10 @@
 case "$RUN_MODE" in
-    model)
-        python ./main.py
+    app)
+        uvicorn main:app --host 0.0.0.0
+        exit 0
+        ;;
+    training)
+        python ./housing/model.py
         exit 0
         ;;
     *)
