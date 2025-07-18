@@ -3,13 +3,9 @@ case "$RUN_MODE" in
         uvicorn main:app --host 0.0.0.0
         exit 0
         ;;
-    training)
-        python ./housing/model.py
-        exit 0
-        ;;
     test)
         cd /tmp/
-        PYTHONPATH=/usr/src/app pytest -v --basetemp=/tmp/pytest --cache-clear --rootdir=/usr/src/app /usr/src/app
+        PYTHONPATH=/usr/src/app pytest --basetemp=/tmp/pytest --cache-clear --rootdir=/usr/src/app /usr/src/app
         exit $?
         ;;
     *)

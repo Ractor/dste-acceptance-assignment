@@ -1,5 +1,4 @@
 from urllib.parse import urlencode
-from unittest.mock import patch
 
 URL_PARAMS = urlencode(
     {
@@ -17,60 +16,43 @@ URL_PARAMS = urlencode(
 
 
 def test_ok(client, clear_rate_limit_storage):
-    with patch("security.API_TOKEN", "mock_token"):
-        response = client.get(
-            "/housing/predict?" + URL_PARAMS,
-            headers={"Authorization": "Bearer mock_token"},
-        )
-        assert response.status_code == 200
+    response = client.get(
+        "/housing/predict?" + URL_PARAMS,
+        headers={"Authorization": "Bearer mock_token"},
+    )
+    assert response.status_code == 200
 
 
 def test_invalid_token(client, clear_rate_limit_storage):
-    with patch("security.API_TOKEN", "mock_token"):
-        response = client.get(
-            "/housing/predict?" + URL_PARAMS,
-            headers={"Authorization": "Bearer invalid_token"},
-        )
-        assert response.status_code == 403
-        assert response.json() == {"detail": "Not authenticated"}
+    response = client.get(
+        "/housing/predict?" + URL_PARAMS,
+        headers={"Authorization": "Bearer invalid_token"},
+    )
+    assert response.status_code == 403
+    assert response.json() == {"detail": "Not authenticated"}
 
 
 def test_missing_header(client, clear_rate_limit_storage):
-    with patch("security.API_TOKEN", "mock_token"):
-        response = client.get(
-            "/housing/predict?" + URL_PARAMS,
-        )
-        assert response.status_code == 403
-        assert response.json() == {"detail": "Not authenticated"}
+    response = client.get(
+        "/housing/predict?" + URL_PARAMS,
+    )
+    assert response.status_code == 403
+    assert response.json() == {"detail": "Not authenticated"}
 
 
 def test_invalid_header_format(client, clear_rate_limit_storage):
-    with patch("security.API_TOKEN", "mock_token"):
-        response = client.get(
-            "/housing/predict?" + URL_PARAMS,
-            headers={"Authorization": "Token mock_token"},
-        )
-        assert response.status_code == 403
-        assert response.json() == {
-            "detail": "Invalid authentication credentials"
-        }
+    response = client.get(
+        "/housing/predict?" + URL_PARAMS,
+        headers={"Authorization": "Token mock_token"},
+    )
+    assert response.status_code == 403
+    assert response.json() == {"detail": "Invalid authentication credentials"}
 
 
 def test_missing_bearer_keyword(client, clear_rate_limit_storage):
-    with patch("security.API_TOKEN", "mock_token"):
-        response = client.get(
-            "/housing/predict?" + URL_PARAMS,
-            headers={"Authorization": "mock_token"},
-        )
-        assert response.status_code == 403
-        assert response.json() == {"detail": "Not authenticated"}
-
-
-def test_api_token_not_set(client, clear_rate_limit_storage):
-    with patch("security.API_TOKEN", None):
-        response = client.get(
-            "/housing/predict?" + URL_PARAMS,
-            headers={"Authorization": "mock_token"},
-        )
-        assert response.status_code == 403
-        assert response.json() == {"detail": "Not authenticated"}
+    response = client.get(
+        "/housing/predict?" + URL_PARAMS,
+        headers={"Authorization": "mock_token"},
+    )
+    assert response.status_code == 403
+    assert response.json() == {"detail": "Not authenticated"}

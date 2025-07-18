@@ -1,14 +1,11 @@
 from urllib.parse import urlencode
-from unittest.mock import patch
 
 
 def _prediction_request(client, urlparams):
-    mock_token = "mocked_token"
-    with patch("security.API_TOKEN", mock_token):
-        return client.get(
-            "/housing/predict?" + urlencode(urlparams),
-            headers={"Authorization": f"Bearer {mock_token}"},
-        )
+    return client.get(
+        "/housing/predict?" + urlencode(urlparams),
+        headers={"Authorization": "Bearer mock_token"},
+    )
 
 
 def test_ok(client, clear_rate_limit_storage):

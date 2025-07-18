@@ -5,7 +5,8 @@ from security import RateLimiter
 
 
 @pytest.fixture
-def client():
+def client(monkeypatch):
+    monkeypatch.setenv("API_TOKEN", "mock_token")
     return TestClient(app)
 
 

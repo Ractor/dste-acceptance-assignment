@@ -1,16 +1,13 @@
-from unittest.mock import patch
 from urllib.parse import urlencode
 
 
 def _sample_output(client, urlparams, price):
-    mock_token = "mocked_token"
-    with patch("security.API_TOKEN", mock_token):
-        response = client.get(
-            "/housing/predict?" + urlencode(urlparams),
-            headers={"Authorization": f"Bearer {mock_token}"},
-        )
-        assert response.status_code == 200
-        assert response.json() == {"price": price}
+    response = client.get(
+        "/housing/predict?" + urlencode(urlparams),
+        headers={"Authorization": "Bearer mock_token"},
+    )
+    assert response.status_code == 200
+    assert response.json() == {"price": price}
 
 
 def test_predict_sample_output1(client, clear_rate_limit_storage):
