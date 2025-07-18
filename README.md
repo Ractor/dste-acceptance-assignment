@@ -3,7 +3,7 @@
 You are given this repository from the data science team. It contains a Python script that generates a model, stores it in a file and then uses it to generate a house price prediction based on the property parameters.
 
 ## Task
-Create a back-end with REST API that uses the model for predictions. Include token based authentication and rate limiting. The solution needs to be production ready with a configured Dockerfile, CI/CD pipeline and some tests. 
+Create a back-end with REST API that uses the model for predictions. Include token based authentication and rate limiting. The solution needs to be production ready with a configured Dockerfile, CI/CD pipeline and some tests.
 
 ## Submitting your solution
 The preferred form of submission is to place the whole solution in a public GitHub repository and send us a link. Both the dataset and model are distributed under the public license. If you don't wish to display your solution publicly, you can send a zip archive with the code to the telekom email address (your contact person).
@@ -69,4 +69,3 @@ median_income: 4.4375
 ocean_proximity: '<1H OCEAN'
 ```
 Output 3: `192575.77355635`
-

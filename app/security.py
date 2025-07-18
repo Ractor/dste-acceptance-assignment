@@ -7,6 +7,7 @@ from collections import deque, defaultdict
 security = HTTPBearer()
 API_TOKEN = os.getenv("API_TOKEN")
 
+
 # Sliding window rate limiting (per IP
 class RateLimiter:
     _rate_limit_storage = defaultdict(deque)
@@ -36,7 +37,12 @@ class RateLimiter:
     def clear_storage(cls):
         cls._rate_limit_storage = defaultdict(deque)
 
-def verify_token(credentials: HTTPAuthorizationCredentials = Security(security)):
+
+def verify_token(
+    credentials: HTTPAuthorizationCredentials = Security(security),
+):
     if credentials.scheme != "Bearer" or credentials.credentials != API_TOKEN:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Not authenticated")
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, detail="Not authenticated"
+        )
     return True

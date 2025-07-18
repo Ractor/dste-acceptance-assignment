@@ -7,10 +7,11 @@ def _sample_output(client, urlparams, price):
     with patch("security.API_TOKEN", mock_token):
         response = client.get(
             "/housing/predict?" + urlencode(urlparams),
-            headers={"Authorization": f"Bearer {mock_token}"}
+            headers={"Authorization": f"Bearer {mock_token}"},
         )
         assert response.status_code == 200
         assert response.json() == {"price": price}
+
 
 def test_predict_sample_output1(client, clear_rate_limit_storage):
     urlparams = {
@@ -22,9 +23,10 @@ def test_predict_sample_output1(client, clear_rate_limit_storage):
         "population": 678.0,
         "households": 249.0,
         "median_income": 5.5789,
-        "ocean_proximity": "NEAR OCEAN"
+        "ocean_proximity": "NEAR OCEAN",
     }
     _sample_output(client, urlparams, 320201.58554043656)
+
 
 def test_predict_sample_output2(client, clear_rate_limit_storage):
     urlparams = {
@@ -36,9 +38,10 @@ def test_predict_sample_output2(client, clear_rate_limit_storage):
         "population": 338.0,
         "households": 182.0,
         "median_income": 1.2132,
-        "ocean_proximity": "INLAND"
+        "ocean_proximity": "INLAND",
     }
     _sample_output(client, urlparams, 58815.45033764739)
+
 
 def test_predict_sample_output3(client, clear_rate_limit_storage):
     urlparams = {
@@ -50,9 +53,6 @@ def test_predict_sample_output3(client, clear_rate_limit_storage):
         "population": 625.0,
         "households": 230.0,
         "median_income": 4.4375,
-        "ocean_proximity": "<1H OCEAN"
+        "ocean_proximity": "<1H OCEAN",
     }
     _sample_output(client, urlparams, 192575.77355634805)
-
-
-
