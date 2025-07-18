@@ -1,14 +1,17 @@
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, Header, HTTPException, status, Depends, Security
+from security import verify_token
 from housing.enums import OceanProximityEnum
 from housing.model import load_model, predict, MODEL_NAME
 from housing.response_models import PredictOut
 import pandas as pd
+
+import os
 import json
 
 
 router = APIRouter()
 
-@router.get("/predict", response_model=PredictOut)
+@router.get("/predict", response_model=PredictOut, responses={403: {"description": "Unauthorized - invalid or missing token"}})
 def get_housing_price_prediction(
     longitude: float = Query(description="Longitude of the location"),
     latitude: float = Query(description="Latitude of the location"),
@@ -19,6 +22,7 @@ def get_housing_price_prediction(
     households: float = Query(ge=0, description="Number of households"),
     median_income: float = Query(ge=0, description="Median income of the area"),
     ocean_proximity: OceanProximityEnum = Query(description="Proximity to the ocean"),
+    authorized: bool = Depends(verify_token)
 ):
     df = pd.DataFrame([{
         'longitude': longitude,
