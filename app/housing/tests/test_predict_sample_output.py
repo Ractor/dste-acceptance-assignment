@@ -12,7 +12,7 @@ def _sample_output(client, urlparams, price):
         assert response.status_code == 200
         assert response.json() == {"price": price}
 
-def test_predict_sample_output1(client):
+def test_predict_sample_output1(client, clear_rate_limit_storage):
     urlparams = {
         "longitude": -122.64,
         "latitude": 38.01,
@@ -26,7 +26,7 @@ def test_predict_sample_output1(client):
     }
     _sample_output(client, urlparams, 320201.58554043656)
 
-def test_predict_sample_output2(client):
+def test_predict_sample_output2(client, clear_rate_limit_storage):
     urlparams = {
         "longitude": -115.73,
         "latitude": 33.35,
@@ -40,7 +40,7 @@ def test_predict_sample_output2(client):
     }
     _sample_output(client, urlparams, 58815.45033764739)
 
-def test_predict_sample_output3(client):
+def test_predict_sample_output3(client, clear_rate_limit_storage):
     urlparams = {
         "longitude": -117.96,
         "latitude": 33.89,

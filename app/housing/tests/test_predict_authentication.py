@@ -13,24 +13,24 @@ URL_PARAMS = urlencode({
     "ocean_proximity": "NEAR OCEAN"
 })
 
-def test_ok(client):
+def test_ok(client, clear_rate_limit_storage):
     with patch("security.API_TOKEN", "mock_token"):
         response = client.get(
             "/housing/predict?" + URL_PARAMS,
             headers={"Authorization": "Bearer mock_token"}   
         )
-    assert response.status_code == 200
+        assert response.status_code == 200
 
-def test_invalid_token(client):
+def test_invalid_token(client, clear_rate_limit_storage):
     with patch("security.API_TOKEN", "mock_token"):
         response = client.get(
             "/housing/predict?" + URL_PARAMS,
             headers={"Authorization": "Bearer invalid_token"}   
         )
-    assert response.status_code == 403
-    assert response.json() == {"detail": "Not authenticated"}
+        assert response.status_code == 403
+        assert response.json() == {"detail": "Not authenticated"}
 
-def test_missing_header(client):
+def test_missing_header(client, clear_rate_limit_storage):
     with patch("security.API_TOKEN", "mock_token"):
         response = client.get(
             "/housing/predict?" + URL_PARAMS,
@@ -38,7 +38,7 @@ def test_missing_header(client):
         assert response.status_code == 403
         assert response.json() == {"detail": "Not authenticated"}
 
-def test_invalid_header_format(client):
+def test_invalid_header_format(client, clear_rate_limit_storage):
     with patch("security.API_TOKEN", "mock_token"):
         response = client.get(
             "/housing/predict?" + URL_PARAMS,
@@ -47,7 +47,7 @@ def test_invalid_header_format(client):
         assert response.status_code == 403
         assert response.json() == {"detail": "Invalid authentication credentials"}
 
-def test_missing_bearer_keyword(client):
+def test_missing_bearer_keyword(client, clear_rate_limit_storage):
     with patch("security.API_TOKEN", "mock_token"):
         response = client.get(
             "/housing/predict?" + URL_PARAMS,
@@ -56,7 +56,7 @@ def test_missing_bearer_keyword(client):
         assert response.status_code == 403
         assert response.json() == {"detail": "Not authenticated"}
 
-def test_api_token_not_set(client):
+def test_api_token_not_set(client, clear_rate_limit_storage):
     with patch("security.API_TOKEN", None):
         response = client.get(
             "/housing/predict?" + URL_PARAMS,

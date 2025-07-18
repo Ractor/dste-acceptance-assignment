@@ -10,7 +10,7 @@ def _prediction_request(client, urlparams):
         )
     
 
-def test_ok(client):
+def test_ok(client, clear_rate_limit_storage):
     urlparams = {
         "longitude": -122.64,
         "latitude": 38.01,
@@ -27,7 +27,7 @@ def test_ok(client):
     assert response.json() == {"price": 320201.58554043656}
 
 
-def test_invalid_longitude(client):
+def test_invalid_longitude(client, clear_rate_limit_storage):
     urlparams = {
         "longitude": None,
         "latitude": 38.01,
@@ -53,7 +53,7 @@ def test_invalid_longitude(client):
         ]
     }
 
-def test_invalid_latitude(client):
+def test_invalid_latitude(client, clear_rate_limit_storage):
     urlparams = {
         "longitude": -122.64,
         "latitude": None,
@@ -79,7 +79,7 @@ def test_invalid_latitude(client):
         ]
     }
 
-def test_negative_housing_median_age(client):
+def test_negative_housing_median_age(client, clear_rate_limit_storage):
     urlparams = {
         "longitude": -122.64,
         "latitude": 38.01,
@@ -106,7 +106,7 @@ def test_negative_housing_median_age(client):
         ]
     }
 
-def test_negative_total_rooms(client):
+def test_negative_total_rooms(client, clear_rate_limit_storage):
     urlparams = {
         "longitude": -122.64,
         "latitude": 38.01,
@@ -133,7 +133,7 @@ def test_negative_total_rooms(client):
         ]
     }
 
-def test_negative_total_bedrooms(client):
+def test_negative_total_bedrooms(client, clear_rate_limit_storage):
     urlparams = {
         "longitude": -122.64,
         "latitude": 38.01,
@@ -160,7 +160,7 @@ def test_negative_total_bedrooms(client):
         ]
     }
 
-def test_negative_population(client):
+def test_negative_population(client, clear_rate_limit_storage):
     urlparams = {
         "longitude": -122.64,
         "latitude": 38.01,
@@ -187,7 +187,7 @@ def test_negative_population(client):
         ]
     }
 
-def test_negative_households(client):
+def test_negative_households(client, clear_rate_limit_storage):
     urlparams = {
         "longitude": -122.64,
         "latitude": 38.01,
@@ -214,7 +214,7 @@ def test_negative_households(client):
         ]
     }
 
-def test_negative_median_income(client):
+def test_negative_median_income(client, clear_rate_limit_storage):
     urlparams = {
         "longitude": -122.64,
         "latitude": 38.01,
@@ -241,7 +241,7 @@ def test_negative_median_income(client):
         ]
     }
 
-def test_invalid_ocean_proximity(client):
+def test_invalid_ocean_proximity(client, clear_rate_limit_storage):
     urlparams = {
         "longitude": -122.64,
         "latitude": 38.01,
