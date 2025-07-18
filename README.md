@@ -1,71 +1,29 @@
-# AIS Backend Developer assignment
+# DSTE Acceptance Assignment
 
-You are given this repository from the data science team. It contains a Python script that generates a model, stores it in a file and then uses it to generate a house price prediction based on the property parameters.
+This repository contains my solution for assignment to be accepted on position of _Python Backend Developer_ at _Deutsche Telekom Services_. Original assignment is specified in `ASSIGNMENT.md`.
 
-## Task
-Create a back-end with REST API that uses the model for predictions. Include token based authentication and rate limiting. The solution needs to be production ready with a configured Dockerfile, CI/CD pipeline and some tests.
+## How to run the code
 
-## Submitting your solution
-The preferred form of submission is to place the whole solution in a public GitHub repository and send us a link. Both the dataset and model are distributed under the public license. If you don't wish to display your solution publicly, you can send a zip archive with the code to the telekom email address (your contact person).
+After pushing to GitHub, the code is automatically deployed to Docker Hub as [ractor/dste-acceptance-assignment](https://hub.docker.com/r/ractor/dste-acceptance-assignment). The `latest` tag should correspond with latest commit in the `master` branch.
 
-## Notes
-* You should not generate any new model. Use the model provided in the `model.joblib` file.
-* If you use a database, it should be part of your solution as a file.
-* If something is unclear or you run into any technical diffilcuties, feel free to contact us.
-* Python 3.9.13 was tested with the solution, thus this version is safe to use. But upgrading the solution to the latest stable python version woudln't hurt eiter.
+The most basic way of running the code is following:
 
-### Files
-* `main.py` - sample script that generates and uses the model
-* `model.joblib` - the computed model you should use
-* `housing.csv` - data files used to generate the model
-* `requirements.txt` - pip dependencies
-
-## Sample outputs
-You can validate you predictions on these sample inputs and expected outputs.
-
-Input 1:
-```
-longitude: -122.64
-latitude: 38.01
-housing_median_age: 36.0
-total_rooms: 1336.0
-total_bedrooms: 258.0
-population: 678.0
-households: 249.0
-median_income: 5.5789
-ocean_proximity: 'NEAR OCEAN'
+```bash
+docker container run --rm -it -p 8000:8000 -e RUN_MODE="app" -e API_TOKEN="xyz" ractor/dste-acceptance-assignment
 ```
 
-Output 1: `320201.58554044`
+Then you can access the code from `localhost:8000`.
 
------------------------------------
+You can find documentation at `/redoc`, but sample cURL follows:
 
-Input 2:
+```bash
+curl 'http://localhost:8000/housing/predict?longitude=-115.73&latitude=33.35&housing_median_age=23.0&total_rooms=1586.0&total_bedrooms=448.0&population=338.0&households=182.0&median_income=1.2132&ocean_proximity=INLAND' \
+--header 'Authorization: Bearer xyz'
 ```
-longitude: -115.73
-latitude: 33.35
-housing_median_age: 23.0
-total_rooms: 1586.0
-total_bedrooms: 448.0
-population: 338.0
-households: 182.0
-median_income: 1.2132
-ocean_proximity: 'INLAND'
-```
-Output 2: `58815.45033765`
 
------------------------------------
+## Configuration options
 
-Input 3:
-```
-longitude: -117.96
-latitude: 33.89
-housing_median_age: 24.0
-total_rooms: 1332.0
-total_bedrooms: 252.0
-population: 625.0
-households: 230.0
-median_income: 4.4375
-ocean_proximity: '<1H OCEAN'
-```
-Output 3: `192575.77355635`
+- `RUN_MODE` – Specifies which part of code should be ran. Use value `app` for FastAPI application or `test` for running the tests (this is also used in pipeline).
+- `API_TOKEN` – Use to specify authentization token (to be used as `Authorization: Bearer` header). Main part of application can't be accessed without api token specification.
+- `RATE_LIMIT` – Limit of API requests per given period (default: `10`).
+- `RATE_PERIOD` – Reset period (seconds) of the rate limit. Works as a sliding window (default: `60`).
